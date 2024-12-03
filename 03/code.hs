@@ -1,8 +1,10 @@
+{-# LANGUAGE ViewPatterns #-}
 import Data.Char
+import Data.List
 
 removal :: String -> Bool -> String
-removal ('d':'o':'(':')':xs) False = removal xs True
-removal ('d':'o':'n':'\'':'t':'(':')':xs) True = removal xs False
+removal (stripPrefix "do()" -> Just xs) False = removal xs True
+removal (stripPrefix "don't()" -> Just xs) True = removal xs False
 removal (x:xs) False = removal xs False
 removal (x:xs) True = x : removal xs True
 removal [] _ = []
